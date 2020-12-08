@@ -5,13 +5,12 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent{
 
   public collapsed = true;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  public hasNoData(): boolean {
+    const data = localStorage.getItem('leasedata');
+    return !data;
   }
-
 }
