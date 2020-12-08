@@ -11,6 +11,7 @@ import { CalculateService } from '../services/calculate.service';
 export class LoonheffingComponent implements OnInit {
 
   public loonLoonheffing = 0;
+  public currentYear = new Date().getFullYear();
 
   constructor(
     private readonly calculateService: CalculateService,

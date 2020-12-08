@@ -12,6 +12,7 @@ export class CalculateService {
   private fiscaleWaarde: number;
   private leasebedrag: number;
   private loonLoonheffing: number;
+  private currentYear = new Date().getFullYear();
 
   constructor(
     private readonly http: HttpClient,
@@ -39,7 +40,7 @@ export class CalculateService {
   }
 
   private getLoonheffing(): void {
-    this.http.get(this.firebareDbUrl + this.loonLoonheffing + '.json')
+    this.http.get(this.firebareDbUrl + this.currentYear + '/' + this.loonLoonheffing + '.json')
       .subscribe(response => {
         if (!response) {
           console.log('Loonheffing bestaat nog niet -- invoeren');
