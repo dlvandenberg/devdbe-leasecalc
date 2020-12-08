@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Data } from '../model/data.interface';
 import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-data',
@@ -22,11 +23,12 @@ export class DataComponent implements OnInit {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly dataService: DataService
   ) {}
 
   ngOnInit(): void {
-    const parsedData = JSON.parse(localStorage.getItem('leasedata'));
+    const parsedData = this.dataService.getData();
     if (parsedData != null) {
       this.data = parsedData;
     }
@@ -63,8 +65,7 @@ export class DataComponent implements OnInit {
   }
 
   public saveData(): void {
-    // do something
-    localStorage.setItem('leasedata', JSON.stringify(this.dataForm.value));
+    this.dataService.setData(this.dataForm.value);
     this.router.navigate(['calculate']);
   }
 

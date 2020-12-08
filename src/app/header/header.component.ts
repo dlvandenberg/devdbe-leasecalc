@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-header',
@@ -9,8 +10,10 @@ export class HeaderComponent{
 
   public collapsed = true;
 
+  constructor(private readonly dataService: DataService) {}
+
   public hasNoData(): boolean {
-    const data = localStorage.getItem('leasedata');
+    const data = this.dataService.getData();
     return !data;
   }
 }

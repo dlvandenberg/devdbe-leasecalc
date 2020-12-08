@@ -7,16 +7,20 @@ import { HeaderComponent } from './header/header.component';
 import { DataComponent } from './data/data.component';
 import { CalculateComponent } from './calculate/calculate.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { LoonheffingComponent } from './loonheffing/loonheffing.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     DataComponent,
-    CalculateComponent
+    CalculateComponent,
+    LoonheffingComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule

@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-xs-12 col-md-6 offset-md-3">
+        <div class="card text-white bg-dark mb-3 text-center">
+            <div class="card-body">
+                <p class="card-text">
+                    Er is nog geen loonheffing bekend voor het loon voor de loonheffing: € {{ loonLoonheffing }}.
+                    Gebruik de witte-maand tabel voor 2020 en kijk onder het kopje ''. Zie <a href="#" target="_blank">hier</a>.
+                </p>
+            </div>
+        </div>
+        <form #calculateForm="ngForm" (keyup.enter)="loonheffing(calculateForm.form)"
+            (ngSubmit)="loonheffing(calculateForm.form)">
+            <div class="form-group">
+                <label for="loonheffing">Loonheffing</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">€</span>
+                    </div>
+                    <input type="number" class="form-control" id="loonheffing" aria-describedby="loonheffingHelp"
+                        placeholder="Loonheffing" ngModel name="loonheffing" required min="0"
+                        #loonheffingControl="ngModel"
+                        [class.is-invalid]="loonheffingControl.dirty && !loonheffingControl.valid">
+                </div>
+                <div class="invalid-feedback" *ngIf="loonheffingControl.dirty && !loonheffingControl.valid">
+                    Voer een geldige loonheffing
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary" [disabled]="!calculateForm.valid">Voer in</button>
+            </div>
+        </form>
+    </div>
+</div>
