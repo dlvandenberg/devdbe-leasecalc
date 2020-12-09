@@ -1,7 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
-@import './bootstrap-override.scss';
-@import '../node_modules/bootstrap/scss/bootstrap';
+@import "./bootstrap-override.scss";
+@import "../node_modules/bootstrap/scss/bootstrap";
 
 .bg-dark-gray {
-    background-color: $dark-gray;
+  background-color: $dark-gray;
+}
+
+div.lease-result {
+  & .row {
+    border-radius: 5px;
+    padding: 2px 0;
+  }
+
+  & .row:nth-child(even) {
+    background-color: darken($secondary, 5);
+  }
+
+  & .row:nth-child(odd) {
+    background-color: darken($secondary, 10);
+  }
+}
+
+@media (max-width: 576px) {
+  .hide-on-small {
+    display: none;
+  }
 }

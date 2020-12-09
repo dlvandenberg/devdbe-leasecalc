@@ -65,7 +65,7 @@ export class DataComponent implements OnInit {
 
   public saveData(): void {
     this.dataService.setData(this.dataForm.value);
-    this.router.navigate(['calculate']);
+    this.router.navigate(['bereken']);
   }
 
   get bijtelling(): number {
