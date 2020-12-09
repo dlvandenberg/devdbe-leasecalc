@@ -12,6 +12,7 @@ import { LoonheffingComponent } from './loonheffing/loonheffing.component';
 import { ResultComponent } from './result/result.component';
 import { registerLocaleData } from '@angular/common';
 import localeNl from '@angular/common/locales/nl';
+import { HomeComponent } from './home/home.component';
 
 registerLocaleData(localeNl);
 
@@ -22,7 +23,8 @@ registerLocaleData(localeNl);
     DataComponent,
     CalculateComponent,
     LoonheffingComponent,
-    ResultComponent
+    ResultComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

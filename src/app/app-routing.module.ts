@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CalculateComponent } from './calculate/calculate.component';
 import { DataComponent } from './data/data.component';
+import { HomeComponent } from './home/home.component';
 import { LoonheffingComponent } from './loonheffing/loonheffing.component';
 import { ResultComponent } from './result/result.component';
 import { ResultResolver } from './result/result.resolver';
@@ -25,8 +26,8 @@ const routes: Routes = [
     resolve: { result: ResultResolver },
     canActivate: [DataGuardService]
   },
-  { path: '', component: DataComponent, pathMatch: 'full' },
-  { path: '**', component: DataComponent }
+  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: '**', component: HomeComponent }
 ];
 
 @NgModule({
