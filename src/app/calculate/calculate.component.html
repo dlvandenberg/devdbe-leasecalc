@@ -1,40 +1,48 @@
 <div class="row">
     <div class="col-xs-12 col-md-6 offset-md-3">
-        <form #calculateForm="ngForm" (keyup.enter)="calculate(calculateForm.form)"
-            (ngSubmit)="calculate(calculateForm.form)">
-            <div class="form-group">
-                <label for="fiscaleWaarde">Fiscale waarde</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">€</span>
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-header">
+                <h2>Bereken je loonstrookje</h2>
+            </div>
+            <div class="card-body">
+                <form #calculateForm="ngForm" (keyup.enter)="calculate(calculateForm.form)"
+                    (ngSubmit)="calculate(calculateForm.form)">
+                    <div class="form-group">
+                        <label for="fiscaleWaarde">Fiscale waarde</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div>
+                            <input type="number" class="form-control" id="fiscaleWaarde"
+                                aria-describedby="fiscaleWaardeHelp" placeholder="Fiscale waarde" ngModel
+                                name="fiscaleWaarde" required min="0" #fiscaleWaardeControl="ngModel"
+                                [class.is-invalid]="fiscaleWaardeControl.dirty && !fiscaleWaardeControl.valid">
+                        </div>
+                        <div class="invalid-feedback" *ngIf="fiscaleWaardeControl.dirty && !fiscaleWaardeControl.valid">
+                            Voer een geldige fiscale waarde in
+                        </div>
                     </div>
-                    <input type="number" class="form-control" id="fiscaleWaarde" aria-describedby="fiscaleWaardeHelp"
-                        placeholder="Fiscale waarde" ngModel name="fiscaleWaarde" required min="0"
-                        #fiscaleWaardeControl="ngModel"
-                        [class.is-invalid]="fiscaleWaardeControl.dirty && !fiscaleWaardeControl.valid">
-                </div>
-                <div class="invalid-feedback" *ngIf="fiscaleWaardeControl.dirty && !fiscaleWaardeControl.valid">
-                    Voer een geldige fiscale waarde in
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="leasebedrag">Maandelijks leasebedrag</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">€</span>
+                    <div class="form-group">
+                        <label for="leasebedrag">Maandelijks leasebedrag</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div>
+                            <input type="number" class="form-control" id="leasebedrag"
+                                aria-describedby="leasebedragHelp" placeholder="Leasebedrag" ngModel name="leasebedrag"
+                                required min="0" #leasebedragControl="ngModel"
+                                [class.is-invalid]="leasebedragControl.dirty && !leasebedragControl.valid">
+                        </div>
+                        <div class="invalid-feedback" *ngIf="leasebedragControl.dirty && !leasebedragControl.valid">
+                            Voer een geldige fiscale waarde in
+                        </div>
                     </div>
-                    <input type="number" class="form-control" id="leasebedrag" aria-describedby="leasebedragHelp"
-                        placeholder="Lease bedrag" ngModel name="leasebedrag" required min="0"
-                        #leasebedragControl="ngModel"
-                        [class.is-invalid]="leasebedragControl.dirty && !leasebedragControl.valid">
-                </div>
-                <div class="invalid-feedback" *ngIf="leasebedragControl.dirty && !leasebedragControl.valid">
-                    Voer een geldige fiscale waarde in
-                </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary"
+                            [disabled]="!calculateForm.valid">Berekenen</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <button type="submit" class="btn btn-primary" [disabled]="!calculateForm.valid">Berekenen</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>

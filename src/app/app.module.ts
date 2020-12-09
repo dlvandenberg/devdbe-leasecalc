@@ -9,6 +9,7 @@ import { CalculateComponent } from './calculate/calculate.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoonheffingComponent } from './loonheffing/loonheffing.component';
+import { ResultComponent } from './result/result.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { LoonheffingComponent } from './loonheffing/loonheffing.component';
     HeaderComponent,
     DataComponent,
     CalculateComponent,
-    LoonheffingComponent
+    LoonheffingComponent,
+    ResultComponent
   ],
   imports: [
     BrowserModule,

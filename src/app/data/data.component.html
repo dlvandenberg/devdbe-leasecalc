@@ -1,93 +1,101 @@
 <div class="row">
-    <div class="col-xs-12 col-md-8 offset-md-2">
-        <form [formGroup]="dataForm" (keyup.enter)="saveData()" (ngSubmit)="saveData()">
-            <div class="form-group">
-                <label for="inputBrutoSalaris">Bruto Salaris</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">€</span>
+    <div class="col-xs-12 col-md-6 offset-md-3">
+        <div class="card text-white bg-secondary mb-3">
+            <div class="card-header">
+                <h2>Bereken je loonstrookje</h2>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="dataForm" (keyup.enter)="saveData()" (ngSubmit)="saveData()">
+                    <div class="form-group">
+                        <label for="inputBrutoSalaris">Bruto Salaris</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div>
+                            <input type="number" class="form-control" id="inputBrutoSalaris" placeholder="Bruto salaris"
+                                formControlName="brutoSalaris" [class.is-invalid]="brutoSalarisInvalid">
+                        </div>
+                        <div class="invalid-feedback" *ngIf="brutoSalarisInvalid">
+                            Voer een geldige bruto salaris in
+                        </div>
                     </div>
-                    <input type="number" class="form-control" id="inputBrutoSalaris" placeholder="Bruto salaris"
-                        formControlName="brutoSalaris" [class.is-invalid]="brutoSalarisInvalid">
-                </div>
-                <div class="invalid-feedback" *ngIf="brutoSalarisInvalid">
-                    Voer een geldige bruto salaris in
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputBijtelling">Bijtellingspercentage</label>
-                <select class="custom-select" formControlName="bijtelling" id="inputBijtelling">
-                    <option [selected]="bijtelling === 8" [value]="8">8%</option>
-                    <option [selected]="bijtelling === 22" [value]="22">22%</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="inputLeaseBudget">Leasebudget</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">€</span>
+                    <div class="form-group">
+                        <label for="inputBijtelling">Bijtellingspercentage</label>
+                        <select class="custom-select" formControlName="bijtelling" id="inputBijtelling">
+                            <option [selected]="bijtelling === 8" [value]="8">8%</option>
+                            <option [selected]="bijtelling === 22" [value]="22">22%</option>
+                        </select>
                     </div>
-                    <input type="number" class="form-control" id="inputLeaseBudget" formControlName="leasebudget"
-                        [class.is-invalid]="leasebudgetInvalid">
-                </div>
-                <div class="invalid-feedback" *ngIf="leasebudgetInvalid">
-                    Voer een geldig lease budget in
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputZorgverzekering">Zorgverzekering vergoeding</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">€</span>
-                    </div><input type="number" class="form-control" id="inputZorgverzekering"
-                        formControlName="zorgverzekering" [class.is-invalid]="zorgverzekeringInvalid">
-                </div>
-                <div class="invalid-feedback" *ngIf="zorgverzekeringInvalid">
-                    Voer een geldige vergoeding in voor zorgverzekering
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputPensioen">Pensioen premie</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">€</span>
-                    </div><input type="number" class="form-control" id="inputPensioen" formControlName="pensioen"
-                        [class.is-invalid]="pensioenInvalid">
-                </div>
+                    <div class="form-group">
+                        <label for="inputLeaseBudget">Leasebudget</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div>
+                            <input type="number" class="form-control" id="inputLeaseBudget"
+                                formControlName="leasebudget" [class.is-invalid]="leasebudgetInvalid">
+                        </div>
+                        <div class="invalid-feedback" *ngIf="leasebudgetInvalid">
+                            Voer een geldig lease budget in
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputZorgverzekering">Zorgverzekering vergoeding</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div><input type="number" class="form-control" id="inputZorgverzekering"
+                                formControlName="zorgverzekering" [class.is-invalid]="zorgverzekeringInvalid">
+                        </div>
+                        <div class="invalid-feedback" *ngIf="zorgverzekeringInvalid">
+                            Voer een geldige vergoeding in voor zorgverzekering
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPensioen">Pensioen premie</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div><input type="number" class="form-control" id="inputPensioen"
+                                formControlName="pensioen" [class.is-invalid]="pensioenInvalid">
+                        </div>
 
-                <div class="invalid-feedback" *ngIf="pensioenInvalid">
-                    Voer een geldige pensioen premie in
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputOuderschapsverlof">Ouderschapsverlof</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">€</span>
-                    </div><input type="number" class="form-control" id="inputOuderschapsverlof"
-                        formControlName="ouderschapsverlof" [class.is-invalid]="ouderschapsverlofInvalid">
-                </div>
+                        <div class="invalid-feedback" *ngIf="pensioenInvalid">
+                            Voer een geldige pensioen premie in
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputOuderschapsverlof">Ouderschapsverlof</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div><input type="number" class="form-control" id="inputOuderschapsverlof"
+                                formControlName="ouderschapsverlof" [class.is-invalid]="ouderschapsverlofInvalid">
+                        </div>
 
-                <div class="invalid-feedback" *ngIf="ouderschapsverlofInvalid">
-                    Voer een geldige ouderschapsverlof in
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="inputOnkostenvergoeding">Onkostenvergoeding</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">€</span>
-                    </div><input type="number" class="form-control" id="inputOnkostenvergoeding"
-                        formControlName="onkostenvergoeding" [class.is-invalid]="onkostenvergoedingInvalid">
-                </div>
+                        <div class="invalid-feedback" *ngIf="ouderschapsverlofInvalid">
+                            Voer een geldige ouderschapsverlof in
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputOnkostenvergoeding">Onkostenvergoeding</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div><input type="number" class="form-control" id="inputOnkostenvergoeding"
+                                formControlName="onkostenvergoeding" [class.is-invalid]="onkostenvergoedingInvalid">
+                        </div>
 
-                <div class="invalid-feedback" *ngIf="onkostenvergoedingInvalid">
-                    Voer een geldige vergoeding in voor onkosten
-                </div>
+                        <div class="invalid-feedback" *ngIf="onkostenvergoedingInvalid">
+                            Voer een geldige vergoeding in voor onkosten
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary"
+                            [disabled]="!dataForm.valid || dataForm.pristine">Opslaan</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <button type="submit" class="btn btn-primary" [disabled]="!dataForm.valid || dataForm.pristine">Opslaan</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>

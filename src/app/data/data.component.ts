@@ -6,8 +6,7 @@ import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-data',
-  templateUrl: './data.component.html',
-  styleUrls: ['./data.component.scss'],
+  templateUrl: './data.component.html'
 })
 export class DataComponent implements OnInit {
   public dataForm: FormGroup;

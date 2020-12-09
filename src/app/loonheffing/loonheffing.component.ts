@@ -5,8 +5,7 @@ import { CalculateService } from '../services/calculate.service';
 
 @Component({
   selector: 'app-loonheffing',
-  templateUrl: './loonheffing.component.html',
-  styleUrls: ['./loonheffing.component.scss']
+  templateUrl: './loonheffing.component.html'
 })
 export class LoonheffingComponent implements OnInit {
 
@@ -24,6 +23,6 @@ export class LoonheffingComponent implements OnInit {
   }
 
   public loonheffing(form: NgForm): void {
-    this.calculateService.loonheffing(form.value.loonheffing);
+    this.calculateService.loonheffing(this.loonLoonheffing, form.value.loonheffing);
   }
 }
