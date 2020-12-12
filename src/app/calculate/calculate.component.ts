@@ -8,7 +8,7 @@ import { CalculateService } from '../services/calculate.service';
 })
 export class CalculateComponent {
 
-  constructor(private readonly calculateService: CalculateService) {}
+  constructor(public readonly calculateService: CalculateService) {}
 
   public calculate(form: NgForm): void {
     console.log(form.value);

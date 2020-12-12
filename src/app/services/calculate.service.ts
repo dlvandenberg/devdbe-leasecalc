@@ -3,6 +3,7 @@ import { Data, Router } from '@angular/router';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { DataService } from './data.service';
 import { BehaviorSubject } from 'rxjs';
+import { LoonheffingService } from './loonheffing.service';
 
 interface LoonheffingResponse {
   [key: string]: {
@@ -31,12 +32,9 @@ export interface Result {
   providedIn: 'root',
 })
 export class CalculateService {
-  private readonly firebareDbUrl =
-    'https://devdbe-leasecalc-default-rtdb.firebaseio.com/';
   private fiscaleWaarde: number;
   private leasebedrag: number;
   private loonLoonheffing: number;
-  private currentYear = new Date().getFullYear();
   private data: Data;
   private waardePriveGebruikAuto: number;
   private werknemerBijdrageAuto: number;
@@ -64,9 +62,9 @@ export class CalculateService {
   public result$ = this.resultSubject.asObservable();
 
   constructor(
-    private readonly http: HttpClient,
     private readonly router: Router,
-    private readonly dataService: DataService
+    private readonly dataService: DataService,
+    private readonly loonheffingService: LoonheffingService
   ) {}
 
   public calculate(fiscaleWaarde: number, leasebedrag: number): void {
@@ -98,38 +96,8 @@ export class CalculateService {
   }
 
   private getLoonheffing(): void {
-    this.http
-      .get<LoonheffingResponse>(
-        this.firebareDbUrl + this.currentYear + '.json',
-        {
-          params: new HttpParams()
-            .set('orderBy', '"loon"')
-            .set('equalTo', '' + this.loonLoonheffing)
-            .set('limitToFirst', '1'),
-        }
-      )
-      .subscribe((response) => {
-        if (!response) {
-          console.log('Loonheffing bestaat nog niet -- invoeren');
-          this.loadingSubject.next(false);
-          this.router.navigate(['loonheffing', this.loonLoonheffing]);
-        } else {
-          console.log(response);
-          const loonheffing = response[Object.keys(response)[0]].loonheffing;
-          this.calculateNettoLoon(loonheffing);
-        }
-      });
-  }
-
-  public loonheffing(loon: number, loonheffing: number): void {
-    console.log('loonheffing: ' + loonheffing);
-    this.loadingSubject.next(true);
-    this.http
-      .post(this.firebareDbUrl + this.currentYear + '.json', {
-        loon: +loon,
-        loonheffing: +loonheffing,
-      })
-      .subscribe((_) => this.calculateNettoLoon(loonheffing));
+    const loonheffing = this.loonheffingService.calculateLoonheffing(this.loonLoonheffing);
+    this.calculateNettoLoon(loonheffing);
   }
 
   private calculateNettoLoon(loonheffing: number): void {
@@ -168,6 +136,7 @@ export class CalculateService {
       werknemerBijdrageAuto: this.werknemerBijdrageAuto,
       zorgverzekering,
     });
+    this.loadingSubject.next(false);
     this.router.navigate(['result']);
   }
 }

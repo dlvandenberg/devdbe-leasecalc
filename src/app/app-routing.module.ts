@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { CalculateComponent } from './calculate/calculate.component';
 import { DataComponent } from './data/data.component';
 import { HomeComponent } from './home/home.component';
-import { LoonheffingComponent } from './loonheffing/loonheffing.component';
 import { ResultComponent } from './result/result.component';
 import { ResultResolver } from './result/result.resolver';
 import { DataGuardService } from './services/data-guard.service';
@@ -13,11 +12,6 @@ const routes: Routes = [
   {
     path: 'bereken',
     component: CalculateComponent,
-    canActivate: [DataGuardService],
-  },
-  {
-    path: 'loonheffing/:loon',
-    component: LoonheffingComponent,
     canActivate: [DataGuardService],
   },
   {
