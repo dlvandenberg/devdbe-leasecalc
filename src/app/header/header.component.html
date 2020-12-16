@@ -1,0 +1,15 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark-gray">
+    <a class="navbar-brand" routerLink="/">LeaseCalc</a>
+    <button class="navbar-toggler" type="button" aria-label="Toggle navigation"
+        (click)="collapsed = !collapsed"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse justify-content-between" [class.collapse]="collapsed">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link" routerLinkActive="active" routerLink="bereken" [class.disabled]="hasNoData()">Bereken</a>
+            <a class="nav-item nav-link" routerLinkActive="active" routerLink="data">Data</a>
+        </div>
+    </div>
+</nav>
