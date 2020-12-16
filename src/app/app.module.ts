@@ -25,7 +25,7 @@ registerLocaleData(localeNl);
     CalculateComponent,
     ResultComponent,
     HomeComponent,
-    LoadingComponent
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,

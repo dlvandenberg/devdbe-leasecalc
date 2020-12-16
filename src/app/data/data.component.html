@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xs-12 col-md-6 offset-md-3">
+    <div class="col-xs-12 col-md-10 offset-md-1">
         <div class="card text-white bg-secondary mb-3">
             <div class="card-header">
                 <h2>Voer gegevens in</h2>
@@ -14,17 +14,10 @@
                             </div>
                             <input type="number" class="form-control" id="inputBrutoSalaris" placeholder="Bruto salaris"
                                 formControlName="brutoSalaris" [class.is-invalid]="brutoSalarisInvalid">
+                            <div class="invalid-feedback" *ngIf="brutoSalarisInvalid">
+                                Voer een geldige bruto salaris in
+                            </div>
                         </div>
-                        <div class="invalid-feedback" *ngIf="brutoSalarisInvalid">
-                            Voer een geldige bruto salaris in
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputBijtelling">Bijtellingspercentage</label>
-                        <select class="custom-select" formControlName="bijtelling" id="inputBijtelling">
-                            <option [selected]="bijtelling === 8" [value]="8">8%</option>
-                            <option [selected]="bijtelling === 22" [value]="22">22%</option>
-                        </select>
                     </div>
                     <div class="form-group">
                         <label for="inputLeaseBudget">Leasebudget</label>
@@ -34,63 +27,210 @@
                             </div>
                             <input type="number" class="form-control" id="inputLeaseBudget"
                                 formControlName="leasebudget" [class.is-invalid]="leasebudgetInvalid">
-                        </div>
-                        <div class="invalid-feedback" *ngIf="leasebudgetInvalid">
-                            Voer een geldig lease budget in
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="inputZorgverzekering">Zorgverzekering vergoeding</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">€</span>
-                            </div><input type="number" class="form-control" id="inputZorgverzekering"
-                                formControlName="zorgverzekering" [class.is-invalid]="zorgverzekeringInvalid">
-                        </div>
-                        <div class="invalid-feedback" *ngIf="zorgverzekeringInvalid">
-                            Voer een geldige vergoeding in voor zorgverzekering
+                            <div class="invalid-feedback" *ngIf="leasebudgetInvalid">
+                                Voer een geldig lease budget in
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="inputPensioen">Pensioen premie</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">€</span>
-                            </div><input type="number" class="form-control" id="inputPensioen"
-                                formControlName="pensioen" [class.is-invalid]="pensioenInvalid">
-                        </div>
+                    <div class="form-group border-top border-primary mt-3 pt-2">
+                        <div class="container p-0" formArrayName="belasteVergoedingen">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h4>Belaste vergoedingen</h4>
+                                </div>
+                            </div>
+                            <div class="row"
+                                *ngFor="let belasteVergoedingCtrl of belasteVergoedingen.controls; let i = index;"
+                                formGroupName="{{ i }}">
+                                <div class="col-sm-7 form-group">
+                                    <input type="text" class="form-control" formControlName="naam" placeholder="Naam"
+                                        [class.is-invalid]="belasteVergoedingCtrl.get('naam').invalid && belasteVergoedingCtrl.get('naam').dirty">
+                                    <div class="invalid-feedback"
+                                        *ngIf="belasteVergoedingCtrl.get('naam').invalid && belasteVergoedingCtrl.get('naam').dirty">
+                                        Voer een geldige naam voor de vergoeding in
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 form-group">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">€</span>
+                                                </div>
+                                                <input type="number" class="form-control" formControlName="bedrag"
+                                                    placeholder="Bedrag"
+                                                    [class.is-invalid]="belasteVergoedingCtrl.get('bedrag').invalid && belasteVergoedingCtrl.get('bedrag').dirty">
+                                                <div class="invalid-feedback"
+                                                    *ngIf="belasteVergoedingCtrl.get('bedrag').invalid && belasteVergoedingCtrl.get('bedrag').dirty">
+                                                    Ongeldig bedrag
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-danger w-100"
+                                                (click)="verwijderBelasteVergoeding(i)">x</button>
+                                        </div>
+                                    </div>
 
-                        <div class="invalid-feedback" *ngIf="pensioenInvalid">
-                            Voer een geldige pensioen premie in
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary w-100"
+                                        (click)="voegBelasteVergoedingToe()">Nieuwe belaste vergoeding</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="inputOuderschapsverlof">Ouderschapsverlof</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">€</span>
-                            </div><input type="number" class="form-control" id="inputOuderschapsverlof"
-                                formControlName="ouderschapsverlof" [class.is-invalid]="ouderschapsverlofInvalid">
-                        </div>
-
-                        <div class="invalid-feedback" *ngIf="ouderschapsverlofInvalid">
-                            Voer een geldige ouderschapsverlof in
+                    <div class="form-group border-top border-primary mt-3 pt-2">
+                        <div class="container p-0" formArrayName="belasteInhoudingen">
+                            <div class="row">
+                                <div class="col">
+                                    <h4>Belaste inhoudingen</h4>
+                                </div>
+                            </div>
+                            <div class="row"
+                                *ngFor="let belasteInhoudingCtrl of belasteInhoudingen.controls; let i = index;"
+                                formGroupName="{{ i }}">
+                                <div class="col-sm-7 form-group">
+                                    <input type="text" class="form-control" formControlName="naam" placeholder="Naam"
+                                        [class.is-invalid]="belasteInhoudingCtrl.get('naam').invalid && belasteInhoudingCtrl.get('naam').dirty">
+                                    <div class="invalid-feedback"
+                                        *ngIf="belasteInhoudingCtrl.get('naam').invalid && belasteInhoudingCtrl.get('naam').dirty">
+                                        Voer een geldige naam voor de inhouding in
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 form-group">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">€</span>
+                                                </div>
+                                                <input type="number" class="form-control" formControlName="bedrag"
+                                                    placeholder="Bedrag"
+                                                    [class.is-invalid]="belasteInhoudingCtrl.get('bedrag').invalid && belasteInhoudingCtrl.get('bedrag').dirty">
+                                                <div class="invalid-feedback"
+                                                    *ngIf="belasteInhoudingCtrl.get('bedrag').invalid && belasteInhoudingCtrl.get('bedrag').dirty">
+                                                    Ongeldig bedrag
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-danger w-100"
+                                            (click)="verwijderBelasteInhouding(i)">x</button>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary w-100"
+                                        (click)="voegBelasteInhoudingToe()">Nieuwe belaste inhouding</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="inputOnkostenvergoeding">Onkostenvergoeding</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">€</span>
-                            </div><input type="number" class="form-control" id="inputOnkostenvergoeding"
-                                formControlName="onkostenvergoeding" [class.is-invalid]="onkostenvergoedingInvalid">
-                        </div>
-
-                        <div class="invalid-feedback" *ngIf="onkostenvergoedingInvalid">
-                            Voer een geldige vergoeding in voor onkosten
+                    <div class="form-group border-top border-primary mt-3 pt-2">
+                        <div class="container p-0" formArrayName="onbelasteVergoedingen">
+                            <div class="row">
+                                <div class="col">
+                                    <h4>Onbelaste vergoedingen</h4>
+                                </div>
+                            </div>
+                            <div class="row"
+                                *ngFor="let onbelasteVergoedingCtrl of onbelasteVergoedingen.controls; let i = index;"
+                                formGroupName="{{ i }}">
+                                <div class="col-sm-7 form-group">
+                                    <input type="text" class="form-control" formControlName="naam" placeholder="Naam"
+                                        [class.is-invalid]="onbelasteVergoedingCtrl.get('naam').invalid && onbelasteVergoedingCtrl.get('naam').dirty">
+                                    <div class="invalid-feedback"
+                                        *ngIf="onbelasteVergoedingCtrl.get('naam').invalid && onbelasteVergoedingCtrl.get('naam').dirty">
+                                        Voer een geldige naam voor de vergoeding in
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 form-group">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">€</span>
+                                                </div>
+                                                <input type="number" class="form-control" formControlName="bedrag"
+                                                    placeholder="Bedrag"
+                                                    [class.is-invalid]="onbelasteVergoedingCtrl.get('bedrag').invalid && onbelasteVergoedingCtrl.get('bedrag').dirty">
+                                                <div class="invalid-feedback"
+                                                    *ngIf="onbelasteVergoedingCtrl.get('bedrag').invalid && onbelasteVergoedingCtrl.get('bedrag').dirty">
+                                                    Ongeldig bedrag
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-danger w-100"
+                                            (click)="verwijderOnbelasteVergoeding(i)">x</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary w-100"
+                                        (click)="voegOnbelasteVergoedingToe()">Nieuwe onbelaste vergoeding</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div>
+                    <div class="border-top border-primary mt-3 pt-2">
+                        <div class="container p-0" formArrayName="onbelasteInhoudingen">
+                            <div class="row">
+                                <div class="col">
+                                    <h4>Onbelaste inhoudingen</h4>
+                                </div>
+                            </div>
+                            <div class="row"
+                                *ngFor="let onbelasteInhoudingCtrl of onbelasteInhoudingen.controls; let i = index;"
+                                formGroupName="{{ i }}">
+                                <div class="col-sm-7 form-group">
+                                    <input type="text" class="form-control" formControlName="naam" placeholder="Naam"
+                                        [class.is-invalid]="onbelasteInhoudingCtrl.get('naam').invalid && onbelasteInhoudingCtrl.get('naam').dirty">
+                                    <div class="invalid-feedback"
+                                        *ngIf="onbelasteInhoudingCtrl.get('naam').invalid && onbelasteInhoudingCtrl.get('naam').dirty">
+                                        Voer een geldige naam voor de inhouding in
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 form-group">
+                                    <div class="row">
+                                        <div class="col-9">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">€</span>
+                                                </div>
+                                                <input type="number" class="form-control" formControlName="bedrag"
+                                                    placeholder="Bedrag"
+                                                    [class.is-invalid]="onbelasteInhoudingCtrl.get('bedrag').invalid && onbelasteInhoudingCtrl.get('bedrag').dirty">
+                                                <div class="invalid-feedback"
+                                                    *ngIf="onbelasteInhoudingCtrl.get('bedrag').invalid && onbelasteInhoudingCtrl.get('bedrag').dirty">
+                                                    Ongeldig bedrag
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <button type="button" class="btn btn-danger w-100"
+                                            (click)="verwijderOnbelasteInhouding(i)">x</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary w-100"
+                                        (click)="voegOnbelasteInhoudingToe()">Nieuwe onbelaste inhouding</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 border-primary border-top pt-2">
                         <button type="submit" class="btn btn-primary"
                             [disabled]="!dataForm.valid || dataForm.pristine">Opslaan</button>
                     </div>

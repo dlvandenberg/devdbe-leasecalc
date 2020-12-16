@@ -12,6 +12,6 @@ export class CalculateComponent {
 
   public calculate(form: NgForm): void {
     console.log(form.value);
-    this.calculateService.calculate(form.value.fiscaleWaarde, form.value.leasebedrag);
+    this.calculateService.calculate(form.value.fiscaleWaarde, form.value.leasebedrag, form.value.bijtelling);
   }
 }

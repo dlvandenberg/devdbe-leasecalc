@@ -15,12 +15,12 @@ export class ResultComponent implements OnInit {
     loonheffing: 0,
     maandlasten: 0,
     nettoloon: 0,
-    onkostenvergoeding: 0,
-    ouderschapsverlof: 0,
-    pensioen: 0,
+    belasteInhoudingen: [],
+    belasteVergoedingen: [],
+    onbelasteInhoudingen: [],
+    onbelasteVergoedingen: [],
     waardePriveGebruikAuto: 0,
     werknemerBijdrageAuto: 0,
-    zorgverzekering: 0
   };
 
   constructor(private readonly route: ActivatedRoute) { }

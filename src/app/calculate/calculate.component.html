@@ -17,9 +17,9 @@
                                 aria-describedby="fiscaleWaardeHelp" placeholder="Fiscale waarde" ngModel
                                 name="fiscaleWaarde" required min="0" #fiscaleWaardeControl="ngModel"
                                 [class.is-invalid]="fiscaleWaardeControl.dirty && !fiscaleWaardeControl.valid">
-                        </div>
-                        <div class="invalid-feedback" *ngIf="fiscaleWaardeControl.dirty && !fiscaleWaardeControl.valid">
-                            Voer een geldige fiscale waarde in
+                            <div class="invalid-feedback" *ngIf="fiscaleWaardeControl.dirty && !fiscaleWaardeControl.valid">
+                                Voer een geldige fiscale waarde in
+                            </div>
                         </div>
                     </div>
                     <div class="form-group">
@@ -32,10 +32,16 @@
                                 aria-describedby="leasebedragHelp" placeholder="Leasebedrag" ngModel name="leasebedrag"
                                 required min="0" #leasebedragControl="ngModel"
                                 [class.is-invalid]="leasebedragControl.dirty && !leasebedragControl.valid">
+                            <div class="invalid-feedback" *ngIf="leasebedragControl.dirty && !leasebedragControl.valid">
+                                Voer een geldige fiscale waarde in
+                            </div>
                         </div>
-                        <div class="invalid-feedback" *ngIf="leasebedragControl.dirty && !leasebedragControl.valid">
-                            Voer een geldige fiscale waarde in
-                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputBijtelling">Bijtellingspercentage</label>
+                        <select class="custom-select" [ngModel]="22" name="bijtelling" id="inputBijtelling">
+                            <option [selected]="true" [value]="22">22%</option>
+                        </select>
                     </div>
                     <div>
                         <button type="submit" class="btn btn-primary"

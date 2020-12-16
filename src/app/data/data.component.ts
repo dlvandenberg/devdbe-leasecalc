@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Data } from '../model/data.interface';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
@@ -11,13 +11,12 @@ import { DataService } from '../services/data.service';
 export class DataComponent implements OnInit {
   public dataForm: FormGroup;
   public data: Data = {
-    brutoSalaris: 0,
-    bijtelling: 22,
-    leasebudget: 0,
-    zorgverzekering: 0,
-    pensioen: 0,
-    ouderschapsverlof: 0,
-    onkostenvergoeding: 0,
+    brutoSalaris: null,
+    leasebudget: null,
+    belasteVergoedingen: [],
+    belasteInhoudingen: [],
+    onbelasteVergoedingen: [],
+    onbelasteInhoudingen: []
   };
 
   constructor(
@@ -32,12 +31,28 @@ export class DataComponent implements OnInit {
       this.data = parsedData;
     }
 
+    const belasteVergoedingen = new FormArray([]);
+    for (const belasteVergoeding of this.data.belasteVergoedingen) {
+      belasteVergoedingen.push(this.maakNaamBedragFormGroup(belasteVergoeding.naam, belasteVergoeding.bedrag));
+    }
+
+    const belasteInhoudingen = new FormArray([]);
+    for (const belasteInhouding of this.data.belasteInhoudingen) {
+      belasteInhoudingen.push(this.maakNaamBedragFormGroup(belasteInhouding.naam, belasteInhouding.bedrag));
+    }
+
+    const onbelasteVergoedingen = new FormArray([]);
+    for (const onbelasteVergoeding of this.data.onbelasteVergoedingen) {
+      onbelasteVergoedingen.push(this.maakNaamBedragFormGroup(onbelasteVergoeding.naam, onbelasteVergoeding.bedrag));
+    }
+
+    const onbelasteInhoudingen = new FormArray([]);
+    for (const onbelasteInhouding of this.data.onbelasteInhoudingen) {
+      onbelasteInhoudingen.push(this.maakNaamBedragFormGroup(onbelasteInhouding.naam, onbelasteInhouding.bedrag));
+    }
+
     this.dataForm = this.formBuilder.group({
       brutoSalaris: this.formBuilder.control(this.data.brutoSalaris, [
-        Validators.required,
-        Validators.min(0),
-      ]),
-      bijtelling: this.formBuilder.control(this.data.bijtelling, [
         Validators.required,
         Validators.min(0),
       ]),
@@ -45,21 +60,10 @@ export class DataComponent implements OnInit {
         Validators.required,
         Validators.min(0),
       ]),
-      zorgverzekering: this.formBuilder.control(this.data.zorgverzekering, [
-        Validators.required,
-        Validators.min(0),
-      ]),
-      pensioen: this.formBuilder.control(this.data.pensioen, [
-        Validators.required,
-        Validators.min(0),
-      ]),
-      ouderschapsverlof: this.formBuilder.control(this.data.ouderschapsverlof, [
-        Validators.min(0),
-      ]),
-      onkostenvergoeding: this.formBuilder.control(
-        this.data.onkostenvergoeding,
-        [Validators.min(0)]
-      ),
+      belasteVergoedingen,
+      belasteInhoudingen,
+      onbelasteVergoedingen,
+      onbelasteInhoudingen
     });
   }
 
@@ -68,9 +72,6 @@ export class DataComponent implements OnInit {
     this.router.navigate(['bereken']);
   }
 
-  get bijtelling(): number {
-    return this.dataForm.controls.bijtelling.value;
-  }
 
   get brutoSalarisInvalid(): boolean {
     return (
@@ -86,31 +87,70 @@ export class DataComponent implements OnInit {
     );
   }
 
-  get zorgverzekeringInvalid(): boolean {
-    return (
-      this.dataForm.controls.zorgverzekering.dirty &&
-      this.dataForm.controls.zorgverzekering.invalid
+  private maakNaamBedragFormGroup(naam?: string, bedrag?: number): FormGroup {
+    return this.formBuilder.group({
+      naam: this.formBuilder.control(naam, Validators.required),
+      bedrag: this.formBuilder.control(bedrag, [ Validators.required, Validators.min(0) ])
+    });
+  }
+
+  public voegBelasteVergoedingToe(): void {
+    this.belasteVergoedingen.push(
+      this.maakNaamBedragFormGroup()
     );
   }
 
-  get pensioenInvalid(): boolean {
-    return (
-      this.dataForm.controls.pensioen.dirty &&
-      this.dataForm.controls.pensioen.invalid
+  public verwijderBelasteVergoeding(index: number): void {
+    this.belasteVergoedingen.removeAt(index);
+    this.dataForm.markAsDirty();
+  }
+
+  get belasteVergoedingen(): FormArray {
+    return (this.dataForm.get('belasteVergoedingen') as FormArray);
+  }
+
+  public voegBelasteInhoudingToe(): void {
+    this.belasteInhoudingen.push(
+      this.maakNaamBedragFormGroup()
     );
   }
 
-  get ouderschapsverlofInvalid(): boolean {
-    return (
-      this.dataForm.controls.ouderschapsverlof.dirty &&
-      this.dataForm.controls.ouderschapsverlof.invalid
+  public verwijderBelasteInhouding(index: number): void {
+    this.belasteInhoudingen.removeAt(index);
+    this.dataForm.markAsDirty();
+  }
+
+  get belasteInhoudingen(): FormArray {
+    return (this.dataForm.get('belasteInhoudingen') as FormArray);
+  }
+
+  public voegOnbelasteVergoedingToe(): void {
+    this.onbelasteVergoedingen.push(
+      this.maakNaamBedragFormGroup()
     );
   }
 
-  get onkostenvergoedingInvalid(): boolean {
-    return (
-      this.dataForm.controls.onkostenvergoeding.dirty &&
-      this.dataForm.controls.onkostenvergoeding.invalid
+  public verwijderOnbelasteVergoeding(index: number): void {
+    this.onbelasteVergoedingen.removeAt(index);
+    this.dataForm.markAsDirty();
+  }
+
+  get onbelasteVergoedingen(): FormArray {
+    return (this.dataForm.get('onbelasteVergoedingen') as FormArray);
+  }
+
+  public voegOnbelasteInhoudingToe(): void {
+    this.onbelasteInhoudingen.push(
+      this.maakNaamBedragFormGroup()
     );
+  }
+
+  public verwijderOnbelasteInhouding(index: number): void {
+    this.onbelasteInhoudingen.removeAt(index);
+    this.dataForm.markAsDirty();
+  }
+
+  get onbelasteInhoudingen(): FormArray {
+    return (this.dataForm.get('onbelasteInhoudingen') as FormArray);
   }
 }
