@@ -108,9 +108,7 @@ export class LoonheffingService {
    */
   public calculateLoonheffing(maandloon: number): number {
     this.jaarloon = maandloon * MAANDELIJKS;
-    console.log('L: ' + this.jaarloon);
     const jaarlijkseInhouding = this.berekenInhouding();
-    console.log('X: ' + jaarlijkseInhouding);
     return this.rondAfOpDecimalen(jaarlijkseInhouding / MAANDELIJKS, 2);
   }
 
@@ -126,11 +124,8 @@ export class LoonheffingService {
    */
   private berekenInhouding(): number {
     const loonbelasting = this.berekenLoonbelasting();
-    console.log('X1: ' + loonbelasting);
     const heffingskortingen = this.berekenHeffingskortingen();
-    console.log('(AHK + OUK + AOK + AOK): ' + heffingskortingen);
     const result = Math.floor(loonbelasting - heffingskortingen);
-    console.log('X: ' + result);
     return Math.max(result, 0);
   }
 
@@ -196,13 +191,9 @@ export class LoonheffingService {
    */
   private berekenHeffingskortingen(): number {
     const ahk = this.berekenAlgemeneHeffingskorting();
-    console.log('ahk: ' + ahk);
     const ouk = this.berekenOuderenkorting();
-    console.log('ouk: ' + ouk);
     const aok = this.berekenAlleenstaandeOuderenkorting();
-    console.log('aok: ' + aok);
     const ark = this.berekenArbeidskorting();
-    console.log('ark: ' + ark);
     return ahk + ouk + aok + ark;
   }
 
@@ -276,24 +267,19 @@ export class LoonheffingService {
       ark = 0;
     } else {
       const ark1 = this.berekenArk1();
-      console.log('ark1: ' + ark1);
       if (this.jaarloon < arkg1) {
-        console.log('return ');
         return Math.ceil(ark1);
       }
       const ark2 = this.berekenArk2(ark1);
-      console.log('ark2: ' + ark2);
       if (this.jaarloon < arkg2) {
         return Math.ceil(ark2);
       }
       const ark3 = this.berekenArk3(ark2);
-      console.log('ark3: ' + ark3);
       if (this.jaarloon < arkg3) {
         return Math.ceil(ark3);
       }
       let arka = arka1 * Math.max(this.jaarloon - arkg3, 0);
       arka = this.rondAfOpDecimalen(arka, 5);
-      console.log('arka: ' + arka);
       ark = ark3 - arka;
     }
     return Math.ceil(ark);

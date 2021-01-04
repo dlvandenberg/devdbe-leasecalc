@@ -88,7 +88,6 @@ export class CalculateService {
       this.werknemerBijdrageAuto -
       this.totaleBelasteInhoudingen;
     this.loonLoonheffing = this.loonLoonheffing - (this.loonLoonheffing % 4.5);
-    console.log('loon voor de loonheffing: ' + this.loonLoonheffing);
     this.getLoonheffing();
   }
 
@@ -98,7 +97,6 @@ export class CalculateService {
   }
 
   private calculateNettoLoon(loonheffing: number): void {
-    console.log('berekenen met loonheffing: ' + loonheffing);
     const {
       brutoSalaris,
       belasteVergoedingen,
