@@ -1,46 +1,40 @@
 import { Injectable } from '@angular/core';
 
-const L_MAX = 98820;
+const L_MAX = 105840;
+const L_V = 54;
 
 interface Schijfwaarden {
   schijf1Max: number;
   schijf2Max: number;
-  schijf3Max: number;
   a1: number;
   a2: number;
   a3: number;
-  a4: number;
   b1: number;
   b2: number;
   b3: number;
-  b4: number;
   c1: number;
   c2: number;
   c3: number;
-  c4: number;
 }
 
 const JONGER_DAN_AOW_SCHIJFWAARDEN: Schijfwaarden = {
-  schijf1Max: 20711,
-  schijf2Max: 34712,
-  schijf3Max: 68507,
+  schijf1Max: 35129,
+  schijf2Max: 68507,
   a1: 0,
-  a2: 20711,
-  a3: 34712,
-  a4: 68507,
-  b1: 37.35,
-  b2: 37.35,
-  b3: 37.35,
-  b4: 49.5,
+  a2: 35129,
+  a3: 68507,
+  b1: 37.10,
+  b2: 37.10,
+  b3: 49.5,
   c1: 0,
-  c2: 7735,
-  c3: 12964,
-  c4: 25586,
+  c2: 13032,
+  c3: 25415,
 };
 
 interface Heffingskortingwaarden {
   ahk1: number;
   ahk2: number;
+  ahkg: number;
   ouk1: number;
   ouk2: number;
   ouk3: number;
@@ -59,23 +53,24 @@ interface Heffingskortingwaarden {
 }
 
 const JONGER_DAN_AOW_HEFFINGSKORTING: Heffingskortingwaarden = {
-  ahk1: 2711,
-  ahk2: 0.05672,
+  ahk1: 2837,
+  ahk2: 0.05977,
+  ahkg: 21043,
   ouk1: 0,
   ouk2: 0,
   ouk3: 0,
   aok1: 0,
-  arko1: 0.02812,
-  arko2: 0.28812,
-  arko3: 0.01656,
-  arkg1: 9921,
-  arkg2: 21430,
-  arkg3: 34954,
-  arkm1: 279,
-  arkm2: 3595,
-  arkm3: 3819,
+  arko1: 0.04581,
+  arko2: 0.28771,
+  arko3: 0.02663,
+  arkg1: 10108,
+  arkg2: 21835,
+  arkg3: 35652,
+  arkm1: 463,
+  arkm2: 3837,
+  arkm3: 4205,
   arka1: 0.06,
-  arkg4: 98604,
+  arkg4: 105735,
 };
 
 interface Symboolwaarden {
@@ -107,9 +102,30 @@ export class LoonheffingService {
    * @param maandloon maandloon
    */
   public calculateLoonheffing(maandloon: number): number {
-    this.jaarloon = maandloon * MAANDELIJKS;
+    this.jaarloon = this.berekenJaarloon(maandloon);
     const jaarlijkseInhouding = this.berekenInhouding();
     return this.rondAfOpDecimalen(jaarlijkseInhouding / MAANDELIJKS, 2);
+  }
+
+  /**
+   * Bereken het jaarloon dat als basis wordt gebruikt voor 
+   * de berekening van loonbelasting/premie.
+   * Formule: 
+   * als tvl * F <= Lmax, dan L = INT((tvl * F) / Lv) * Lv
+   * als tvl * F > Lmax, dan L = tvl * F
+   * 
+   * Condities:
+   *   tvl * F >= 0
+   * 
+   * @param maandloon maandloon
+   */
+  private berekenJaarloon(maandloon): number {
+    const jaarloon = maandloon * MAANDELIJKS;
+    if (jaarloon <= L_MAX) {
+      return Math.floor(jaarloon / L_V) * L_V;
+    } else {
+      return jaarloon;
+    }
   }
 
   /**
@@ -167,20 +183,11 @@ export class LoonheffingService {
         b: this.schijfwaarden.b2,
         c: this.schijfwaarden.c2,
       };
-    } else if (
-      this.jaarloon > this.schijfwaarden.schijf2Max &&
-      this.jaarloon <= this.schijfwaarden.schijf3Max
-    ) {
+    } else {
       symboolwaarden = {
         a: this.schijfwaarden.a3,
         b: this.schijfwaarden.b3,
         c: this.schijfwaarden.c3,
-      };
-    } else {
-      symboolwaarden = {
-        a: this.schijfwaarden.a4,
-        b: this.schijfwaarden.b4,
-        c: this.schijfwaarden.c4,
       };
     }
     return symboolwaarden;
@@ -199,19 +206,19 @@ export class LoonheffingService {
 
   /**
    * Formule:
-   * Als L <= a4
-   *   AHK = ahk1 - (L - a2) * ahk2
-   * Als L > a4
+   * Als L <= a3
+   *   AHK = ahk1 - (L - ahkg) * ahk2
+   * Als L > a3
    *   AHK = 0
    */
   private berekenAlgemeneHeffingskorting(): number {
     let ahk: number;
-    const { a4, a2 } = this.schijfwaarden;
-    const { ahk1, ahk2 } = this.heffingskortingwaarden;
-    if (this.jaarloon <= a4) {
+    const { a3 } = this.schijfwaarden;
+    const { ahk1, ahk2, ahkg } = this.heffingskortingwaarden;
+    if (this.jaarloon <= a3) {
       ahk = ahk1;
-      if (this.jaarloon >= a2) {
-        ahk = ahk - (this.jaarloon - a2) * ahk2;
+      if (this.jaarloon >= ahkg) {
+        ahk = ahk - (this.jaarloon - ahkg) * ahk2;
       }
     } else {
       ahk = 0;

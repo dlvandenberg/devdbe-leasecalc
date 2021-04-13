@@ -14,24 +14,24 @@ describe('LoonheffingService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return "1102.17" when loon is "3915"', () => {
+  it('should return "1051.25" when loon is "3915"', () => {
     const loon = 3915;
-    expect(service.calculateLoonheffing(loon)).toEqual(1102.17);
+    expect(service.calculateLoonheffing(loon)).toEqual(1051.25);
   });
 
-  it('should return "1655.83" when loon is "5044.50"', () => {
+  it('should return "209.42" when loon is "2034"', () => {
     const loon = 2034;
-    expect(service.calculateLoonheffing(loon)).toEqual(247.33);
+    expect(service.calculateLoonheffing(loon)).toEqual(209.42);
   });
 
-  it('should return "3116.33" when loon is "7753.50"', () => {
+  it('should return "3066.42" when loon is "7753.50"', () => {
     const loon = 7753.50;
-    expect(service.calculateLoonheffing(loon)).toEqual(3116.33);
+    expect(service.calculateLoonheffing(loon)).toEqual(3066.42);
   });
 
-  it('should return "30.42" when loon is "742.50"', () => {
+  it('should return "4.92" when loon is "742.50"', () => {
     const loon = 742.50;
-    expect(service.calculateLoonheffing(loon)).toEqual(30.42);
+    expect(service.calculateLoonheffing(loon)).toEqual(4.92);
   });
 
   it('should round up to 5 decimals', () => {
