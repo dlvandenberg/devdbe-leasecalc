@@ -20,6 +20,19 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="inputNettoSalaris">Huidige netto Salaris</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div>
+                            <input type="number" class="form-control" id="inputNettoSalaris" placeholder="Netto salaris"
+                                formControlName="nettoSalaris" [class.is-invalid]="nettoSalarisInvalid">
+                            <div class="invalid-feedback" *ngIf="nettoSalarisInvalid">
+                                Voer een geldige netto salaris in
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="inputLeaseBudget">Leasebudget</label>
                         <div class="input-group">
                             <div class="input-group-prepend">

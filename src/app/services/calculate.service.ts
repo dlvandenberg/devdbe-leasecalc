@@ -14,6 +14,7 @@ export interface Result {
   loonLoonheffing: number;
   loonheffing: number;
   nettoloon: number;
+  verschilNettoloon: number;
   maandlasten: number;
   belasteVergoedingen: { naam: string, bedrag: number }[];
   belasteInhoudingen: { naam: string, bedrag: number }[];
@@ -32,6 +33,7 @@ export class CalculateService {
   private waardePriveGebruikAuto: number;
   private werknemerBijdrageAuto: number;
   private nettoloon: number;
+  private verschilNettoloon: number;
   private maandlasten: number;
   private totaleBelasteInhoudingen: number;
   private totaleBelasteVergoedingen: number;
@@ -47,6 +49,7 @@ export class CalculateService {
     loonheffing: 0,
     maandlasten: 0,
     nettoloon: 0,
+    verschilNettoloon: 0,
     waardePriveGebruikAuto: 0,
     werknemerBijdrageAuto: 0,
     belasteVergoedingen: [],
@@ -99,6 +102,7 @@ export class CalculateService {
   private calculateNettoLoon(loonheffing: number): void {
     const {
       brutoSalaris,
+      nettoSalaris,
       belasteVergoedingen,
       belasteInhoudingen,
       onbelasteVergoedingen,
@@ -113,9 +117,9 @@ export class CalculateService {
       - this.werknemerBijdrageAuto
       - totaleOnbelasteInhoudingen
       + totaleOnbelasteVergoedingen;
-    this.maandlasten =
-      (this.waardePriveGebruikAuto - this.werknemerBijdrageAuto) * 0.408 +
-      this.werknemerBijdrageAuto;
+
+    this.maandlasten = this.berekenMaandlasten();
+    this.verschilNettoloon = this.berekenVerschilNettoloon(nettoSalaris, this.nettoloon);
     this.loadingSubject.next(false);
     this.resultSubject.next({
       brutoSalaris,
@@ -125,6 +129,7 @@ export class CalculateService {
       loonheffing,
       maandlasten: this.maandlasten,
       nettoloon: this.nettoloon,
+      verschilNettoloon: this.verschilNettoloon,
       belasteInhoudingen,
       belasteVergoedingen,
       onbelasteInhoudingen,
@@ -134,5 +139,13 @@ export class CalculateService {
     });
     this.loadingSubject.next(false);
     this.router.navigate(['result']);
+  }
+
+  private berekenMaandlasten(): number {
+    return (this.waardePriveGebruikAuto - this.werknemerBijdrageAuto) * 0.371 + this.werknemerBijdrageAuto;
+  }
+
+  private berekenVerschilNettoloon(huidigSalaris: number, nieuwSalaris: number): number {
+    return huidigSalaris - nieuwSalaris;
   }
 }
