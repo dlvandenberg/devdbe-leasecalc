@@ -12,6 +12,7 @@ export class DataComponent implements OnInit {
   public dataForm: FormGroup;
   public data: Data = {
     brutoSalaris: null,
+    nettoSalaris: null,
     leasebudget: null,
     belasteVergoedingen: [],
     belasteInhoudingen: [],
@@ -56,6 +57,10 @@ export class DataComponent implements OnInit {
         Validators.required,
         Validators.min(0),
       ]),
+      nettoSalaris: this.formBuilder.control(this.data.nettoSalaris, [
+        Validators.required,
+        Validators.min(0),
+      ]),
       leasebudget: this.formBuilder.control(this.data.leasebudget, [
         Validators.required,
         Validators.min(0),
@@ -77,6 +82,13 @@ export class DataComponent implements OnInit {
     return (
       this.dataForm.controls.brutoSalaris.dirty &&
       this.dataForm.controls.brutoSalaris.invalid
+    );
+  }
+
+  get nettoSalarisInvalid(): boolean {
+    return (
+      this.dataForm.controls.nettoSalaris.dirty &&
+      this.dataForm.controls.nettoSalaris.invalid
     );
   }
 

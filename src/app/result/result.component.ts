@@ -15,6 +15,7 @@ export class ResultComponent implements OnInit {
     loonheffing: 0,
     maandlasten: 0,
     nettoloon: 0,
+    verschilNettoloon: 0,
     belasteInhoudingen: [],
     belasteVergoedingen: [],
     onbelasteInhoudingen: [],
