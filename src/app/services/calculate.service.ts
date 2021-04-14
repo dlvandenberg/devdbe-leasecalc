@@ -146,6 +146,6 @@ export class CalculateService {
   }
 
   private berekenVerschilNettoloon(huidigSalaris: number, nieuwSalaris: number): number {
-    return huidigSalaris - nieuwSalaris;
+    return nieuwSalaris - huidigSalaris;
   }
 }
