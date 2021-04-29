@@ -7,7 +7,9 @@ import { Router } from '@angular/router';
 
 export interface Result {
   fiscaleWaarde: number;
+  bijtelling: number;
   leasebedrag: number;
+  leasebudget: number;
   brutoSalaris: number;
   waardePriveGebruikAuto: number;
   werknemerBijdrageAuto: number;
@@ -22,12 +24,25 @@ export interface Result {
   onbelasteInhoudingen: { naam: string, bedrag: number }[];
 }
 
+const BIJTELLING_REGELS: { [key: number]: { cap: number, bijtellingRest: number} } = {
+  12: {
+    cap: 40000,
+    bijtellingRest: 22
+  }, 
+  22: {
+    cap: undefined,
+    bijtellingRest: undefined
+  }
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class CalculateService {
   private fiscaleWaarde: number;
+  private bijtelling: number;
   private leasebedrag: number;
+  private leasebudget: number;
   private loonLoonheffing: number;
   private data: Data;
   private waardePriveGebruikAuto: number;
@@ -44,6 +59,8 @@ export class CalculateService {
   private resultSubject = new BehaviorSubject<Result>({
     brutoSalaris: 0,
     fiscaleWaarde: 0,
+    bijtelling: 0,
+    leasebudget: 0,
     leasebedrag: 0,
     loonLoonheffing: 0,
     loonheffing: 0,
@@ -65,19 +82,19 @@ export class CalculateService {
     private readonly loonheffingService: LoonheffingService
   ) {}
 
-  public calculate(fiscaleWaarde: number, leasebedrag: number, bijtelling: number): void {
+  public calculate(fiscaleWaarde: number, leasebedrag: number, leasebudget: number, bijtelling: number): void {
     this.loadingSubject.next(true);
     this.fiscaleWaarde = fiscaleWaarde;
+    this.bijtelling = bijtelling;
     this.leasebedrag = leasebedrag;
+    this.leasebudget = leasebudget;
     this.data = this.dataService.getData();
     const {
       brutoSalaris,
-      leasebudget,
       belasteVergoedingen,
       belasteInhoudingen
     } = this.data;
-    this.waardePriveGebruikAuto =
-      (this.fiscaleWaarde * (bijtelling / 100)) / 12;
+    this.waardePriveGebruikAuto = this.berekenWaardePriveGebruikAuto(fiscaleWaarde, bijtelling);
     this.werknemerBijdrageAuto =
       this.leasebedrag > leasebudget ? this.leasebedrag - leasebudget : 0;
     this.totaleBelasteVergoedingen = belasteVergoedingen.map(belasteVergoeding => belasteVergoeding.bedrag)
@@ -92,6 +109,15 @@ export class CalculateService {
       this.totaleBelasteInhoudingen;
     this.loonLoonheffing = this.loonLoonheffing - (this.loonLoonheffing % 4.5);
     this.getLoonheffing();
+  }
+
+  private berekenWaardePriveGebruikAuto(fiscaleWaarde: number, bijtelling: number): number {
+    const regels = BIJTELLING_REGELS[bijtelling];
+    if (regels.cap === undefined || fiscaleWaarde < regels.cap) {
+      return (fiscaleWaarde * (bijtelling / 100)) / 12
+    } else if (fiscaleWaarde >= regels.cap) {
+      return (regels.cap * (bijtelling / 100) + (fiscaleWaarde - regels.cap) * (regels.bijtellingRest / 100)) / 12;
+    }
   }
 
   private getLoonheffing(): void {
@@ -124,7 +150,9 @@ export class CalculateService {
     this.resultSubject.next({
       brutoSalaris,
       fiscaleWaarde: this.fiscaleWaarde,
+      bijtelling: this.bijtelling,
       leasebedrag: this.leasebedrag,
+      leasebudget: this.leasebudget,
       loonLoonheffing: this.loonLoonheffing,
       loonheffing,
       maandlasten: this.maandlasten,

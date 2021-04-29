@@ -33,14 +33,29 @@
                                 required min="0" #leasebedragControl="ngModel"
                                 [class.is-invalid]="leasebedragControl.dirty && !leasebedragControl.valid">
                             <div class="invalid-feedback" *ngIf="leasebedragControl.dirty && !leasebedragControl.valid">
-                                Voer een geldige fiscale waarde in
+                                Voer een geldig leasebedrag in
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="leasebudget">Leasebudget</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">€</span>
+                            </div>
+                            <input type="number" class="form-control" id="leasebudget"
+                                aria-describedby="leasebudgetHelp" placeholder="Leasebudget" [(ngModel)]="budget" name="leasebudget"
+                                required min="0" #leasebudgetControl="ngModel"
+                                [class.is-invalid]="leasebudgetControl.dirty && !leasebudgetControl.valid">
+                            <div class="invalid-feedback" *ngIf="leasebudgetControl.dirty && !leasebudgetControl.valid">
+                                Voer een geldig leasebudget in
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="inputBijtelling">Bijtellingspercentage</label>
-                        <select class="custom-select" [ngModel]="22" name="bijtelling" id="inputBijtelling">
-                            <option [selected]="true" [value]="22">22%</option>
+                        <select class="custom-select" [(ngModel)]="savedBijtelling" name="bijtelling" id="inputBijtelling">
+                            <option *ngFor="let percentage of percentages" [value]="percentage">{{ percentage }} %</option>
                         </select>
                     </div>
                     <div>
