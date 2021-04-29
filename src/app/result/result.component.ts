@@ -10,7 +10,9 @@ export class ResultComponent implements OnInit {
   public result: Result = {
     brutoSalaris: 0,
     fiscaleWaarde: 0,
+    bijtelling: 0,
     leasebedrag: 0,
+    leasebudget: 0,
     loonLoonheffing: 0,
     loonheffing: 0,
     maandlasten: 0,

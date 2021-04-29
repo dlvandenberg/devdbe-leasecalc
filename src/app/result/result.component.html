@@ -11,8 +11,16 @@
                         <div class="col-6 col-sm-3">€ {{ result.fiscaleWaarde | currency:'EUR':'':'.2-2' }}</div>
                     </div>
                     <div class="row">
+                        <div class="col-6 col-sm-9">Bijtellingspercentage:</div>
+                        <div class="col-6 col-sm-3">  {{ result.bijtelling }} %</div>
+                    </div>
+                    <div class="row">
                         <div class="col-6 col-sm-9">Maandelijks leasebedrag:</div>
                         <div class="col-6 col-sm-3">€ {{ result.leasebedrag | currency:'EUR':'':'.2-2' }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 col-sm-9">Maandelijks leasebudget:</div>
+                        <div class="col-6 col-sm-3">€ {{ result.leasebudget | currency:'EUR':'':'.2-2' }}</div>
                     </div>
                 </div>
             </div>

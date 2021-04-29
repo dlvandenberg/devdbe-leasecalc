@@ -14,6 +14,7 @@ export class DataComponent implements OnInit {
     brutoSalaris: null,
     nettoSalaris: null,
     leasebudget: null,
+    bijtelling: null,
     belasteVergoedingen: [],
     belasteInhoudingen: [],
     onbelasteVergoedingen: [],
